@@ -45,8 +45,41 @@ exports.registerUser = async (req, res) => {
 
 // Login User
 exports.loginUser = async (req, res) => {
-    
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: "All fields are required!" });
+    }
+    try {
+        const user = await User.findOne({ email });
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(400).json({ message: "Invalid crendentials!"});
+        }
+        res.status(200).json({
+            id: user._id,
+            user,
+            token: generateToken(user._id),
+        });
+    }
+    catch (err) {
+        res
+        .status(500)
+        .json({ message: "Error logging in!", error: err.message });
+    }
 };
 
 // Register User
-exports.getUserInfo = async (req, res) => {};
+exports.getUserInfo = async (req, res) => {
+    try {
+        console.log(req);
+        const user = await User.findById(req.User.id).select("password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(user);
+    }
+    catch (err) {
+        res
+            .status(500)
+            .json({ message: "Error getting User Info", error: err.message});
+    }
+};
