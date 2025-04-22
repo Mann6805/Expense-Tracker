@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import AuthLayout from '../../components/layouts/AuthLayout'
-import Input from '../../components/inputs/Input'
-import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector'
-import { validateEmail } from '../../utils/helper'
+import React, { useContext, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import AuthLayout from '../../components/layouts/AuthLayout';
+import Input from '../../components/inputs/Input';
+import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
+import { validateEmail } from '../../utils/helper';
+import { UserContext } from '../../context/userContext';
 
 const SignUp = () => {
 
@@ -13,6 +14,7 @@ const SignUp = () => {
   const [password, setpassword] = useState("");
   const [error, seterror] = useState(null);
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -21,23 +23,54 @@ const SignUp = () => {
     let profileImageUrl = "";
 
     if(!fullname){
-      seterror("Please enter your fullname.")
+      setError("Please enter your fullname.");
       return
     }
 
     if(!validateEmail(email)){
-      seterror("Please enter a valid email address.")
+      setError("Please enter a valid email address.");
       return
     }
 
     if(!password){
-      seterror("Please enter a password.")
+      seterror("Please enter a password.");
       return;
     }
 
-    seterror("")
+    setError("");
 
-  }
+    // SignUp API Call
+    try{
+
+      // Upload image if present
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        fullName,
+        email,
+        password,
+        profileImageUrl
+      });
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    }
+    catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      }
+      else {
+        setError("Something went wrong. Please try again.");
+      }
+    }
+  };
   
   return (
     <AuthLayout>
