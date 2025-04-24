@@ -6,6 +6,7 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import AddIncomeForm from '../../components/Income/AddIncomeForm';
 import { toast } from 'react-hot-toast';
+import IncomeList from '../../components/Income/IncomeList';
 
 const Income = () => {
 
@@ -97,6 +98,13 @@ const Income = () => {
               onAddIncome = {() => setOpenAddIncomeModal(true)}
             />
           </div>
+          <IncomeList
+            transactions={incomeData}
+            onDelete={(id)=>{
+              setOpenDeleteAlert({show: true, data: id});
+            }}
+            onDownload={handleDownloadIncomeDetails}
+          />
         </div>
 
         
@@ -106,6 +114,18 @@ const Income = () => {
         title="Add Income">
         <div>
           <AddIncomeForm onAddIncome={handleAddIncome} />
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={openDeleteAlert.show}
+        onClose={() => setOpenDeleteAlert({show: false, data: null})}
+        title="Delete Income">
+        <div>
+          <DeleteAlert
+            content="Are you sure you want to delete this income details?"
+            onDelete={() => deleteIncome(openDeleteAlert.data)}
+          />
         </div>
       </Modal>
         
