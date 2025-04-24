@@ -3,15 +3,14 @@ const jwt = require("jsonwebtoken");
 
 // Generate JWT Token
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "12h" });
 };
 
 // Register User
 exports.registerUser = async (req, res) => {
-    const { fullName, email, password, profileImageUrl } = req.body || {};
-
+    const { fullname, email, password, profileImageUrl } = req.body || {};
     // Validation: Check for missing fields
-    if (!fullName || !email || !password){
+    if (!fullname || !email || !password){
         return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -19,12 +18,12 @@ exports.registerUser = async (req, res) => {
         // Check if email already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: "Emai already in use" });
+            return res.status(400).json({ message: "Email already in use" });
         }
 
     // Create the user
     const user = await User.create({
-        fullName,
+        fullname,
         email,
         password,
         profileImageUrl,

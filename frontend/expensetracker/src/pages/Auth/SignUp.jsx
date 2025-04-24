@@ -1,10 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATHS } from '../../utils/apiPaths';
 import Input from '../../components/inputs/Input';
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
 import { validateEmail } from '../../utils/helper';
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../context/UserContext';
+import uploadImage from '../../utils/uploadImage';
 
 const SignUp = () => {
 
@@ -23,12 +26,12 @@ const SignUp = () => {
     let profileImageUrl = "";
 
     if(!fullname){
-      setError("Please enter your fullname.");
+      seterror("Please enter your fullname.");
       return
     }
 
     if(!validateEmail(email)){
-      setError("Please enter a valid email address.");
+      seterror("Please enter a valid email address.");
       return
     }
 
@@ -37,7 +40,7 @@ const SignUp = () => {
       return;
     }
 
-    setError("");
+    seterror("");
 
     // SignUp API Call
     try{
@@ -48,8 +51,15 @@ const SignUp = () => {
         profileImageUrl = imgUploadRes.imageUrl || "";
       }
 
-      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
-        fullName,
+      console.log({
+        fullname,
+        email,
+        password,
+        profileImageUrl
+      });
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullname,
         email,
         password,
         profileImageUrl
@@ -64,10 +74,11 @@ const SignUp = () => {
     }
     catch (error) {
       if (error.response && error.response.data.message) {
-        setError(error.response.data.message);
+        console.error("Signup error response:", error.response?.data);
+        seterror(error.response.data.message);
       }
       else {
-        setError("Something went wrong. Please try again.");
+        seterror("Something went wrong. Please try again.");
       }
     }
   };

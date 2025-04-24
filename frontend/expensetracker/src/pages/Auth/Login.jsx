@@ -5,7 +5,7 @@ import Input from '../../components/inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../context/UserContext';
 
 const Login = () => {
 
@@ -22,16 +22,16 @@ const Login = () => {
     e.preventDefault();
 
     if(!validateEmail(email)){
-      setError("Please enter a valid email address.");
+      seterror("Please enter a valid email address.");
       return;
     }
 
     if(!password){
-      setError("Please enter a password.");
+      seterror("Please enter a password.");
       return;
     }
 
-    setError("");
+    seterror("");
 
     try{
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
@@ -39,7 +39,7 @@ const Login = () => {
         password,
       });
       const { token, user } = response.data;
-
+      console.log(token)
       if (token) {
         localStorage.setItem("token", token);
         updateUser(user);
@@ -48,10 +48,10 @@ const Login = () => {
     }
     catch (error) {
       if (error.response && error.response.data.message) {
-        setError(error.response.data.message);
+        seterror(error.response.data.message);
       }
       else {
-        setError("Something went wrong. Please try again.");
+        seterror("Something went wrong. Please try again.");
       }
     };
   }

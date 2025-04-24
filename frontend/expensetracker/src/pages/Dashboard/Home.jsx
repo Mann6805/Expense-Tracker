@@ -8,7 +8,7 @@ import InfoCard from '../../components/Cards/InfoCard'
 import { addThousandsSeparator } from '../../utils/helper';
 import { LuHandCoins, LuWalletMinimal } from 'react-icons/lu';
 import { IoMdCard } from "react-icons/io";
-import { RecentTranasctions } from "../../components/Dashboard/RecentTransactions";
+import RecentTransactions from "../../components/Dashboard/RecentTransactions";
 
 const Home = () => {
   useUserAuth();
@@ -69,7 +69,7 @@ const Home = () => {
         </div> */}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6mt-6">
-          <RecentTranasctions
+          <RecentTransactions
             transactions={dashboardData?.recentTransactions}
             onSeeMore={() => navigate("/expense")}
           />

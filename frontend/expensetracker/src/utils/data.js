@@ -2,7 +2,7 @@ import {
     LuLayoutDashboard,
     LuHandCoins,
     LuWalletMinimal,
-    LuLogout,
+    LuLogOut,
 } from "react-icons/lu";
 
 export const SIDE_MENU_DATA = [
@@ -27,7 +27,7 @@ export const SIDE_MENU_DATA = [
     {
         id: "06",
         label: "Logout",
-        icon: LuLogout,
+        icon: LuLogOut,
         path: "/logout",
     },
 ]

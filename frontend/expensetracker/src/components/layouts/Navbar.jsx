@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HiOutlineMenu, HiOutlinex } from "react-icons/hi";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import SideMenu from "./SideMenu";
 
 const Navbar = ({activeMenu}) => {
@@ -10,7 +10,7 @@ const Navbar = ({activeMenu}) => {
                 setOpenSideMenu(!openSideMenu);
             }}>
                 {openSideMenu ? (
-                    <HiOutlinex className="text-2xl" />
+                    <HiOutlineX className="text-2xl" />
                 ) : (
                     <HiOutlineMenu className="text-2xl" />
                 )}
