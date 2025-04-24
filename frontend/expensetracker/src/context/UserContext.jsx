@@ -4,10 +4,6 @@ export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    
-    useEffect(() => {
-        console.log("Updated user: ", user);
-    }, [user]);  
 
     // Function to update user data
     const updateUser = (userData) => {
