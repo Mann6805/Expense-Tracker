@@ -1,11 +1,12 @@
 import React from 'react';
-import { CustomTooltip } from "../Charts/CustomTooltip";
-import { CustomLegend } from "../Charts/CustomLegend";
+import CustomTooltip from "./CustomTooltip";
+import CustomLegend from './CustomLegend';
+
 import {
     PieChart,
     Pie,
     Cell,
-    Toltip,
+    Tooltip,
     ResponsiveContainer,
     Legend,
 } from "recharts";

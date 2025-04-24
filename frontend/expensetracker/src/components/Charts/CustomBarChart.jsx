@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
     BarChart,
     Bar,
@@ -11,7 +12,7 @@ import {
     Cell,
 } from "recharts";
 
-const CustomBarChart = () => {
+const CustomBarChart = ({data}) => {
 
     // Function to alternate colors
     const getBarColor = (index) => {
