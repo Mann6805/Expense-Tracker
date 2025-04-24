@@ -58,6 +58,13 @@ const SignUp = () => {
         profileImageUrl
       });
 
+      console.log("Payload being sent to backend:", {
+        fullname,
+        email,
+        password,
+        profileImageUrl,
+      });
+      
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         fullname,
         email,

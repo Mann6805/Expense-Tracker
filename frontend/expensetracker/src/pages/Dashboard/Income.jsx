@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import Modal from '../../components/Modal'
 import IncomeOverview from '../../components/Income/IncomeOverview';
@@ -173,4 +173,4 @@ const Income = () => {
   )
 }
 
-export default Income
+export default Income;

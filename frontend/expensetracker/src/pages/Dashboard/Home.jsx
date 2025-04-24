@@ -9,6 +9,9 @@ import { addThousandsSeparator } from '../../utils/helper';
 import { LuHandCoins, LuWalletMinimal } from 'react-icons/lu';
 import { IoMdCard } from "react-icons/io";
 import RecentTransactions from "../../components/Dashboard/RecentTransactions";
+import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions';
+import RecentIncomeWithChart from '../../components/Dashboard/RecentIncomeWithChart';
+import RecentIncome from '../../components/Dashboard/RecentIncome';
 
 const Home = () => {
   useUserAuth();
@@ -47,7 +50,7 @@ const Home = () => {
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className='my-5 mx-auto'>
-        {/* <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
           <InfoCard
             icon={<IoMdCard />}
             label="Total Balance"
@@ -66,7 +69,7 @@ const Home = () => {
             value={addThousandsSeparator(dashboardData?.totalExpense || 0)}
             color="bg-red-500">
           </InfoCard>
-        </div> */}
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6mt-6">
           <RecentTransactions
@@ -79,7 +82,25 @@ const Home = () => {
             totalExpense={dashboardData?.totalExpense || 0}
           />
 
-        </div>
+            <ExpenseTransactions
+              transactions={dashboardData?.last30DaysExpenses?.transactions || [] }
+              onSeeMore={() => navigate("/expense")}
+            />
+
+            <Last30DaysExpenses>
+              data={dashboardData?.last30DaysExpenses?.transactions || [] }
+            </Last30DaysExpenses>
+
+            <RecentIncomeWithChart
+              data={dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []}
+              totalIncome={dashboardData?.totalIncome || 0}
+            />  
+
+            <RecentIncome
+              transactions={dashboardData?.last60DaysIncome?.transactions || []}
+              onSeeMore={() => navigate("/income")}
+            />
+          </div>
       </div>
     </DashboardLayout>
   );
